@@ -24,7 +24,7 @@ type CosConnect struct {
 	Object     *cos.ObjectService
 }
 
-func NewCos() *CosConnect {
+func NewCosConnector() *CosConnect {
 	accessId := os.Getenv("CosId")
 	accessSecret := os.Getenv("CosSecret")
 	endpoint := os.Getenv("CosEndpoint")
