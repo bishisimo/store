@@ -7,7 +7,7 @@ package store
 
 import "os"
 
-type StoreSystem interface {
+type StoreFace interface {
 	ListBuckets()
 	ListFiles()
 	UploadString(msg string, descPath string)
