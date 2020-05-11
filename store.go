@@ -11,6 +11,6 @@ type StoreFace interface {
 	ListBuckets()
 	ListFiles()
 	UploadString(msg string, descPath string)
-	UploadFil2eByPath(sourcePath string, descPath string)
+	UploadFileByPath(sourcePath string, descPath string)
 	UploadFileByFP(fp *os.File, descPath string)
 }

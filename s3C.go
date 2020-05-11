@@ -82,7 +82,7 @@ func (s S3Connector) ListFiles() {
 /*
 上传一个文件
 */
-func (s S3Connector) UploadFil2eByPath(filePath string, descPath string) {
+func (s S3Connector) UploadFileByPath(filePath string, descPath string) {
 	fp, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println(filePath, "打开错误! ", err.Error())

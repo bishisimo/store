@@ -81,7 +81,7 @@ func (c CosConnect) UploadString(msg string, descPath string) {
 	}
 }
 
-func (c CosConnect) UploadFil2eByPath(sourcePath string, descPath string) {
+func (c CosConnect) UploadFileByPath(sourcePath string, descPath string) {
 	_, err := c.Object.PutFromFile(context.Background(), path.Join(c.BucketName, descPath), sourcePath, nil)
 	if err != nil {
 		panic(err)
