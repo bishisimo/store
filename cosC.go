@@ -24,11 +24,27 @@ type CosConnect struct {
 	Object     *cos.ObjectService
 }
 
-func NewCosConnector() *CosConnect {
-	accessId := os.Getenv("CosId")
-	accessSecret := os.Getenv("CosSecret")
-	endpoint := os.Getenv("CosEndpoint")
-	bucketName := os.Getenv("CosBucket")
+func NewCosConnector(option ...AccessOption) *CosConnect {
+	var (
+		accessId,
+		accessSecret,
+		endpoint,
+		region,
+		bucketName string
+	)
+	if option != nil {
+		accessId = option[0].Id
+		accessSecret = option[0].Secret
+		endpoint = option[0].Endpoint
+		region = option[0].Region
+		bucketName = option[0].Bucket
+	} else {
+		accessId = os.Getenv("CosId")
+		accessSecret = os.Getenv("CosSecret")
+		endpoint = os.Getenv("CosEndpoint")
+		bucketName = os.Getenv("CosBucket")
+	}
+	_ = region
 	u, _ := url.Parse(endpoint)
 	b := &cos.BaseURL{BucketURL: u}
 	c := cos.NewClient(b, &http.Client{

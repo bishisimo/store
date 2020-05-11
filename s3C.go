@@ -28,12 +28,28 @@ type S3Connector struct {
 	BucketName string
 }
 
-func NewS3Connector() *S3Connector {
-	accessId := os.Getenv("S3Id")
-	accessSecret := os.Getenv("S3Secret")
-	endpoint := os.Getenv("S3Endpoint")
-	region := os.Getenv("S3Region")
-	bucketName := os.Getenv("S3Bucket")
+func NewS3Connector(option ...AccessOption) *S3Connector {
+	var (
+		accessId,
+		accessSecret,
+		endpoint,
+		region,
+		bucketName string
+	)
+	if option != nil {
+		accessId = option[0].Id
+		accessSecret = option[0].Secret
+		endpoint = option[0].Endpoint
+		region = option[0].Region
+		bucketName = option[0].Bucket
+	} else {
+		accessId = os.Getenv("S3Id")
+		accessSecret = os.Getenv("S3Secret")
+		endpoint = os.Getenv("S3Endpoint")
+		region = os.Getenv("S3Region")
+		bucketName = os.Getenv("S3Bucket")
+	}
+
 	sess, err := session.NewSession(&aws.Config{
 		Credentials:      credentials.NewStaticCredentials(accessId, accessSecret, ""),
 		Endpoint:         aws.String(endpoint),
@@ -79,9 +95,7 @@ func (s S3Connector) ListFiles() {
 	}
 }
 
-/*
-上传一个文件
-*/
+//上传一个文件
 func (s S3Connector) UploadFileByPath(filePath string, descPath string) {
 	fp, err := os.Open(filePath)
 	if err != nil {
@@ -114,9 +128,7 @@ func (s S3Connector) UploadFileByFP(fp *os.File, descPath string) {
 	}
 }
 
-/*
-上传字符串保存到文件
-*/
+//上传字符串保存到文件
 func (s S3Connector) UploadString(msg string, desPath string) {
 	fp := strings.NewReader(msg)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(30)*time.Second)
